@@ -66,7 +66,3 @@ export default async (req: Request) => {
     return;
   }
 };
-
-export const config: Config = {
-  schedule: "@hourly",
-};
