@@ -8,11 +8,13 @@ import {
 } from "@google/generative-ai";
 
 const MODEL_NAME = "gemini-pro";
-const API_KEY = process.env.PALM_API_KEY || ``;
+const API_KEY : any = process.env.PALM_API_KEY;
+const SUBABASE_URL: any = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const SUBABASE_ANON_KEY : any = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 const supabase = createClient(
-  process.env.SUPABASE_URL || '',
-  process.env.SUPABASE_ANON_KEY || '',
+  SUBABASE_URL,
+  SUBABASE_ANON_KEY,
 );
 
 export default async (req: Request) => {
