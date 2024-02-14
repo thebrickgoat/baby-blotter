@@ -1,15 +1,22 @@
 import type { Config } from "@netlify/functions";
-import { createClient } from "../../utils/supabase/server";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
+import { Database } from "../../types/supabase";
 
-import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
+import {
+  GoogleGenerativeAI,
+  HarmCategory,
+  HarmBlockThreshold,
+} from "@google/generative-ai";
 
 const MODEL_NAME = "gemini-pro";
-const API_KEY = process.env.PALM_API_KEY;
+const API_KEY = process.env.PALM_API_KEY || ``;
 
 export default async (req: Request) => {
   const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createServerComponentClient<Database>({
+    cookies: () => cookieStore,
+  });
   const genAI = new GoogleGenerativeAI(API_KEY);
   const model = genAI.getGenerativeModel({ model: MODEL_NAME });
 
@@ -54,10 +61,8 @@ export default async (req: Request) => {
   const response = result.response;
   const text = response.text();
 
-  if (!result.error) {
-    const { data } = await supabase
-      .from("blotters")
-      .insert([{ text: text }]);
+  if (!result) {
+    const { data } = await supabase.from("blotters").insert([{ text: text }]);
   } else {
     return;
   }

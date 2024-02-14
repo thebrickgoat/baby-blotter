@@ -1,9 +1,10 @@
-import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { Database } from "@/types/supabase";
 
 export default async function Home() {
   const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createServerComponentClient<Database>({ cookies: () => cookieStore })
 
   let { data: blotters, error } = await supabase.from("blotters").select("*");
   
@@ -12,7 +13,7 @@ export default async function Home() {
     return formatedDate;
   }
   return (
-    <div className="container mx-auto my-16">
+    <div className="container mx-auto py-16 ">
       <div className="hidden bg-accent-1 bg-accent-2 bg-accent-3 bg-accent-4 bg-accent-5" />
       <h1 className="mb-8 text-4xl">Latest Blots</h1>
       <div className="">
