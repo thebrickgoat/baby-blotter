@@ -1,0 +1,1 @@
+export var query = `write a realistic police blotter entry, make it a little snarky but still matter of fact, and keep it in one paragraph and objective`
