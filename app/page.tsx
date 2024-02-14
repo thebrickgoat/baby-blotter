@@ -1,10 +1,6 @@
-import { cookies } from "next/headers";
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from "@/types/supabase";
+import supabase from '../utils/supabase/client'
 
 export default async function Home() {
-  const cookieStore = cookies();
-  const supabase = createServerComponentClient<Database>({ cookies: () => cookieStore })
 
   let { data: blotters, error } = await supabase.from("blotters").select("*");
   
