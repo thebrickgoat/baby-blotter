@@ -66,3 +66,7 @@ export default async (req: Request) => {
     return;
   }
 };
+
+export const config: Config = {
+  path: "/test"
+};
