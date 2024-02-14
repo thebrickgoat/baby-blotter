@@ -1,7 +1,5 @@
 import type { Config } from "@netlify/functions";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
-import { Database } from "../../types/supabase";
+import { createClient } from "@supabase/supabase-js";
 
 import {
   GoogleGenerativeAI,
@@ -12,11 +10,12 @@ import {
 const MODEL_NAME = "gemini-pro";
 const API_KEY = process.env.PALM_API_KEY || ``;
 
+const supabase = createClient(
+  process.env.SUPABASE_URL || '',
+  process.env.SUPABASE_ANON_KEY || '',
+);
+
 export default async (req: Request) => {
-  const cookieStore = cookies();
-  const supabase = createServerComponentClient<Database>({
-    cookies: () => cookieStore,
-  });
   const genAI = new GoogleGenerativeAI(API_KEY);
   const model = genAI.getGenerativeModel({ model: MODEL_NAME });
 
