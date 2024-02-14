@@ -43,7 +43,7 @@ export default async (req: Request, context: Context) => {
 
   const parts = [
     {
-      text: 'write a realistic police blotter entry, make it a little snarky but still matter of fact, and keep it in one paragraph and objective\n Officers responded to a call about a disturbance at a local grocery store, where a customer was reportedly causing a scene. Upon arrival, officers found a man dressed as a giant chicken attempting to purchase a rotisserie chicken. The man was asked to leave the store, but he refused, claiming to be a "chicken rights activist." As the man continued to cause a commotion, officers used a feather duster to gently coax him out of the store. The man was issued a citation for disorderly conduct and advised to seek professional help.',
+      text: 'write a realistic police blotter entry, make it a little snarky but still matter of fact. Keep it in one paragraph, objective,and do not use names or identifying information. Do not return a title',
     },
   ];
 
@@ -71,3 +71,7 @@ export default async (req: Request, context: Context) => {
     return new Response(`Pushed to DB: ${text}!`, { status: 200});
   }
 };
+
+export const config: Config = {
+  schedule: "@hourly"
+}
