@@ -68,11 +68,11 @@ export default async (req: Request, context: Context) => {
     return new Response("Error", { status: 500 });
   } else {
     await supabase.auth.signOut();
-    await fetch(process.env.NETLIFY_FUNCTION_URL! + "?clear_cache=true&trigger_title=triggered+by+succesful+blot+entry")
+
+    await fetch(`${process.env.NETLIFY_FUNCTION_URL!}?clear_cache=true&trigger_title=triggered+by+succesful+blot+entry`, {
+      method: "POST"
+    });
+
     return new Response(`Pushed to DB: ${text}!`, { status: 200});
   }
 };
-
-export const config: Config = {
-  schedule: "@hourly"
-}
