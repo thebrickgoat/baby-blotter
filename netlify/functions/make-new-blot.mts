@@ -72,7 +72,11 @@ export default async (req: Request, context: Context) => {
     await fetch(`${process.env.NETLIFY_FUNCTION_URL!}?clear_cache=true&trigger_title=triggered+by+succesful+blot+entry`, {
       method: "POST"
     });
-
+    
     return new Response(`Pushed to DB: ${text}!`, { status: 200});
   }
 };
+
+export const config: Config = {
+  schedule: "@hourly"
+}
