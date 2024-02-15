@@ -7,7 +7,7 @@ export default async function Home() {
   let reversedBlotters = blotters?.reverse() ?? [];
   
   return (
-    <div className="container px-8 mx-auto py-8 ">
+    <div className="container px-4 mx-auto py-8 ">
       <div className="hidden bg-accent-1 bg-accent-2 bg-accent-3 bg-accent-4 bg-accent-5" />
       <h1 className="mb-6 md:mb-8 text-6xl font-bold">Latest Blots</h1>
       <BlotterContainer blotters={reversedBlotters} />

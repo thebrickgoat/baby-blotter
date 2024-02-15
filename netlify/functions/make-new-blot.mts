@@ -58,7 +58,7 @@ export default async (req: Request, context: Context) => {
 
   const currentDate = new Date();
   const roundedDownDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours());
-  const addedMinutes = new Date(roundedDownDate.getTime() + (Math.random() < 0.5 ? 1 : 59) * 60000);
+  const addedMinutes = new Date(roundedDownDate.getTime() + Math.floor(Math.random() * 59 + 1) * 60000);
 
   await supabase.auth.signInWithPassword({
     email: process.env.NETLIFY_FUNCTION_EMAIL!,
