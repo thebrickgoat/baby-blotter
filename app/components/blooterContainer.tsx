@@ -27,9 +27,14 @@ export default function BlotterContainer({ blotters }: BlotterContainerProps) {
     const currentBlotters = blotters.slice(indexOfFirstItem, indexOfLastItem);
 
     const paginate = (pageNumber: number) => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
         setCurrentPage(pageNumber)
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
+
+    const totalPages = Math.ceil(blotters.length / itemsPerPage);
+    const visiblePages = 3;
+    const firstVisiblePage = Math.max(1, currentPage - Math.floor(visiblePages / 2));
+    const lastVisiblePage = Math.min(totalPages, firstVisiblePage + visiblePages - 1);
 
     return (
         <div className="">
@@ -46,16 +51,37 @@ export default function BlotterContainer({ blotters }: BlotterContainerProps) {
                 </div>
             ))}
 
-            <div className="pagination flex justify-center mt-8">
-                {Array.from({ length: Math.ceil(blotters.length / itemsPerPage) }).map((_, index) => (
+            <div className="pagination flex justify-center mt-8 p-8 rounded-md drop-shadow-xl bg-white w-fit m-auto">
+                {currentPage !== 1 && (
                     <button
-                        key={index}
-                        onClick={() => paginate(index + 1)}
-                        className={`px-4 py-2 mx-1 text-white ${currentPage == index + 1 ? 'bg-accent' : 'bg-accent-white text-accent border border-accent hover:text-white'} rounded-md drop-shadow-xl hover:bg-accent-dark focus:outline-none focus:bg-accent-dark`}
+                        onClick={() => paginate(1)}
+                        className={`px-4 py-2 mx-1 $ bg-accent-2 text-white rounded-md drop-shadow-xl hover:bg-accent-dark`}
                     >
-                        {index + 1}
+                        First
                     </button>
-                ))}
+                )}
+
+                {Array.from({ length: lastVisiblePage - firstVisiblePage + 1 }).map((_, index) => {
+                    const pageNumber = firstVisiblePage + index;
+                    return (
+                        <button
+                            key={index}
+                            onClick={() => paginate(pageNumber)}
+                            className={`px-4 py-2 mx-1 ${currentPage === pageNumber ? 'bg-accent  text-white' : 'bg-accent-white text-accent border border-accent hover:text-white'} rounded-md drop-shadow-xl hover:bg-accent-dark`}
+                        >
+                            {pageNumber}
+                        </button>
+                    );
+                })}
+                {currentPage !== totalPages && (
+
+                    <button
+                        onClick={() => paginate(totalPages)}
+                        className={`px-4 py-2 mx-1 text-white bg-accent-2 rounded-md drop-shadow-xl hover:bg-accent-dark`}
+                    >
+                        Last
+                    </button>
+                )}
             </div>
         </div>
     );
