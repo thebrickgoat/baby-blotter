@@ -56,12 +56,16 @@ export default async (req: Request, context: Context) => {
   const response = result.response;
   const text = response.text();
 
+  const currentDate = new Date();
+  const roundedDownDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours());
+  const addedMinutes = new Date(roundedDownDate.getTime() + (Math.random() < 0.5 ? 1 : 59) * 60000);
+
   await supabase.auth.signInWithPassword({
     email: process.env.NETLIFY_FUNCTION_EMAIL!,
     password: process.env.NETLIFY_FUNCTION_PASSWORD!,
   });
 
-  const { error } = await supabase.from("blotters").insert([{ text: text }]);
+  const { error } = await supabase.from("blotters").insert([{ created_at: addedMinutes, text: text }]);
   if (error?.message != null) {
     console.log(error);
     await supabase.auth.signOut();
