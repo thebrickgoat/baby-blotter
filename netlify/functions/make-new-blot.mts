@@ -65,10 +65,10 @@ export default async (req: Request, context: Context) => {
   if (error?.message != null) {
     console.log(error);
     await supabase.auth.signOut();
-    await fetch(process.env.NETLIFY_FUNCTION_URL! + "?clear_cache=true&trigger_title=triggered+by+succesful+blot+entry")
     return new Response("Error", { status: 500 });
   } else {
     await supabase.auth.signOut();
+    await fetch(process.env.NETLIFY_FUNCTION_URL! + "?clear_cache=true&trigger_title=triggered+by+succesful+blot+entry")
     return new Response(`Pushed to DB: ${text}!`, { status: 200});
   }
 };
