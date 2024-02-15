@@ -51,7 +51,7 @@ export default function BlotterContainer({ blotters }: BlotterContainerProps) {
                 </div>
             ))}
 
-            <div className="pagination flex justify-center mt-8 p-8 rounded-md drop-shadow-xl bg-white w-fit m-auto">
+            <div className="pagination flex justify-center mt-8 p-4 md:p-8 rounded-md drop-shadow-xl bg-white w-fit m-auto">
                 {currentPage !== 1 && (
                     <button
                         onClick={() => paginate(1)}
